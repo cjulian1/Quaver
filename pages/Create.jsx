@@ -88,7 +88,7 @@ function App() {
             setChoosingKey(false)
         }
         if (location.state?.fileName) {
-            setMidiFileName(location.state.fileName)
+            setMidiFileName(location.state.fileName.replace('.mid', ''))
         }
     }, [])
     
