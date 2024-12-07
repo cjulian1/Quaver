@@ -1,0 +1,33 @@
+.song-buttons {
+    display: block;
+    margin-bottom: 9px;
+}
+
+.main-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button3 {
+    align-items: center;
+    border-radius: 10px;
+    margin: 4px;
+    margin-top: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    outline: 2.5px outset rgb(131, 131, 131);
+    user-select: none;
+    font-size: 1.4vw;
+}
+
+.input2 {
+    align-items: center;
+    border-radius: 10px;
+    margin: 4px;
+    margin-top: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    outline: 2.5px outset rgb(131, 131, 131);
+    user-select: none;
+    font-size: 1.4v;
+    width: 15vw;
+}

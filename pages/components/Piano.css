@@ -1,0 +1,16 @@
+.piano {
+    display: flex;
+    flex-direction: row;
+}
+
+.load-piano {
+    padding: 3vh;
+}
+
+.load-piano-button {
+    width: 50vw;
+    height: 20vh;
+    outline: outset black;
+    border-radius: 50px;
+    font-size: 4vw;
+}

@@ -1,0 +1,112 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    background: #6a11cb;
+    background: -webkit-linear-gradient(-45deg, rgb(138, 27, 182), rgb(128, 48, 219));
+    background: linear-gradient(-45deg, rgb(138, 27, 182), rgb(114, 48, 219));
+    background-size: cover;
+}
+
+#loginText {
+    text-align: 'center';
+    color: white;
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inputText {
+    padding: 8px;
+    border-radius: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.containerContainer {
+    animation: fade-in 1s;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20%;
+}
+
+.container {
+    width: 50%;
+    height: 50%;
+}
+
+.button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    outline: 2.5px outset rgb(131, 131, 131);
+    user-select: none;
+}
+
+.button:hover {
+    outline: 2.5px outset rgb(131, 131, 131);
+    user-select: none;
+    border-color:transparent!important;
+}
+
+.button:focus {
+    outline: 2.5px inset rgb(131, 131, 131) !important;
+    color:rgb(199, 199, 199);
+    user-select: none;
+    border-color:transparent!important;
+}
+
+@media (max-width: 800px) {
+    .containerContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container {
+        padding: 10%;
+    }
+}
+
+#main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#response {
+    display: flex;
+    font-family:'Courier New', Courier, monospace;
+    flex-direction: row;
+    align-items: center;
+    padding: 50px;
+}
+
+
+@keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 100;
+    }
+  }

@@ -1,0 +1,182 @@
+*:not(.navbar) {
+    animation: fade-in 0.7s;
+}
+
+.piano-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    width: 45vw;
+    max-height: 350px;
+}
+
+.upper-half {
+    min-height: 10vw;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lower-half {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.piano {
+    margin-top: 20px;
+    max-width: 410px;
+    max-height: 230px;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px;
+    max-width: 90vw;
+    white-space: wrap;
+    /*overflow: hidden;*/
+    text-overflow: ellipsis;
+    user-select: none;
+}
+
+.octave-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.octave-text {
+    font-weight: bold;
+    font-size: x-large;
+    margin: 10px;
+    user-select: none;
+}
+
+.button2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    margin: 5px;
+    margin-top: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    outline: 2.5px outset rgb(131, 131, 131);
+    user-select: none;
+}
+
+.button2:hover {
+    outline: 2.5px outset rgb(131, 131, 131);
+    user-select: none;
+    border-color:transparent!important;
+}
+
+.button2:focus {
+    outline: 2.5px inset rgb(131, 131, 131) !important;
+    color:rgb(199, 199, 199);
+    user-select: none;
+    border-color:transparent!important;
+}
+
+.generate-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    margin: 5px;
+    margin-top: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    outline: 2.5px outset rgb(131, 131, 131);
+    user-select: none;
+    background-color: rgb(72, 0, 90);
+}
+
+.generate-button:hover {
+    outline: 2.5px outset rgb(131, 131, 131);
+    user-select: none;
+    border-color:transparent!important;
+}
+
+.generate-button:focus {
+    outline: 2.5px inset rgb(131, 131, 131) !important;
+    color:rgb(199, 199, 199);
+    user-select: none;
+    border-color:transparent!important;
+}
+
+.download {
+    outline:double;
+    outline-color: lightblue;
+    border-radius: 5px;
+}
+
+.inputs2 {
+    padding: 8px;
+    border-radius: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    margin-top: 10px;
+}
+
+.button-grey {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    margin: auto;
+    font-family: 'Courier New', Courier, monospace;
+    outline: 2.5px outset rgba(131, 131, 131, 0.438);
+    user-select: none;
+    background-color: rgba(31, 31, 31, 0.705);
+    color: rgba(255, 255, 255, 0.692);
+    height: 20px;
+    line-height: 0;
+}
+
+.button-grey:hover {
+    outline: 2.5px outset rgb(131, 131, 131);
+    user-select: none;
+    border-color:transparent!important;
+}
+
+.button-grey:focus {
+    outline: 2.5px inset rgb(131, 131, 131) !important;
+    color:rgb(199, 199, 199);
+    user-select: none;
+    border-color:transparent!important;
+}
+
+@media (max-width: 800px) {
+    .piano {
+        width: 90vw;
+        height: 90vh;
+    }
+
+    .piano-container {
+        height: 45vh;
+    }
+
+    .octave-buttons {
+        margin-top: 60px;
+    }
+
+    .upper-half {
+        padding-top: 20px;
+    }
+}
+
+
+@keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 100;
+    }
+  }
