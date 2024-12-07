@@ -6,6 +6,6 @@ Assuming all dependencies are installed, start a local server and load the page 
 
 ## Requirements
 
-Node.js, npm, vite
+Node.js, npm, python
 
-Also python: `pip install midiutil`
+run `pip install midiutil`
