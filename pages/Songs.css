@@ -17,7 +17,9 @@
     font-family: 'Courier New', Courier, monospace;
     outline: 2.5px outset rgb(131, 131, 131);
     user-select: none;
-    font-size: 1.4vw;
+    font-size: 100%;
+    max-width: 300px;
+    max-height: 50px;
 }
 
 .input2 {
