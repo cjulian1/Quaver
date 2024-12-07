@@ -1,6 +1,6 @@
 # Quaver
 
-If all requirements tart a local server and load the page with start.bat
+Assuming all dependencies are installed, start a local server and load the page with start.bat
 
 ## Requirements
 
