@@ -6,4 +6,4 @@ If all requirements tart a local server and load the page with start.bat
 
 Node.js & npm
 
-Also run: `pip install midiutil`
+Also python: `pip install midiutil`
