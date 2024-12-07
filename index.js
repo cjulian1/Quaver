@@ -21,7 +21,7 @@ app.use(express.json())
 
 module.exports = app
 
-function authenticate(req, res, next) {
+function authenticate(req, res, next) {    // check to see if users token is valid
     const authHeader = req.headers['authorization']
     const token = req.headers.authorization?.split(' ')[1]
 
@@ -33,7 +33,7 @@ function authenticate(req, res, next) {
         return res.status(401).json({error: 'no token'})
     }
 
-    jwt.verify(token, jwtSecretKey, (err, user) => {
+    jwt.verify(token, jwtSecretKey, (err, user) => {    // verify token using secret key
         if (err) {
             console.log(err.message)
             return res.status(401).json({error: 'bad token'})
@@ -52,24 +52,24 @@ app.get('/create', authenticate, (req, res) => {
 })
 
 app.post('/api/notes', authenticate, (req, res) => {    // generate and create midi file
-    const { notes, fileName } = req.body
+    const { notes, fileName } = req.body                    // gets melody and requested file name
     console.log('Midi notes: ', notes, ' from userID:', req.user.userID)
 
-    const pyScript = spawn('python', ['generate_chords.py'])
+    const pyScript = spawn('python', ['generate_chords.py'])    // spawns python process
     
     let pyOutput = ''
 
-    pyScript.stdin.write(JSON.stringify(notes))
+    pyScript.stdin.write(JSON.stringify(notes))           // passes notes to python process
     pyScript.stdin.end()
 
     pyScript.stdout.on('data', (data) => {
-        pyOutput += data.toString()
+        pyOutput += data.toString()                        // gets printed output from python process
     })
 
     pyScript.on('close', (code) => {
         if (code === 0) {
             const midiFileName = `${fileName.trim().replace(/\s+/g, '_')}_${req.user.userID}.mid`
-            const midiFilePath = path.join(__dirname, 'midis', midiFileName)
+            const midiFilePath = path.join(__dirname, 'midis', midiFileName)                        
             fs.renameSync(pyOutput.trim(), midiFilePath)
 
             const midiFileUrl = `/midi-f/${midiFileName}`
@@ -78,7 +78,7 @@ app.post('/api/notes', authenticate, (req, res) => {    // generate and create m
             
             const sqlCheck = 'SELECT * FROM files WHERE file_path = ? AND userID = ?'
 
-            db.get(sqlCheck, [midiFileUrl, req.user.userID], (err, oldFile) => {
+            db.get(sqlCheck, [midiFileUrl, req.user.userID], (err, oldFile) => {    // check if file name exists in database
                 if (err) {
                     console.error(err.message)
                     return res.json({ success: false, message: err.message})
@@ -86,7 +86,7 @@ app.post('/api/notes', authenticate, (req, res) => {    // generate and create m
 
                 if (oldFile) {
                     const sqlUpdate = 'UPDATE files SET file_path = ?, melody_notes = ? WHERE ID = ?'
-                    db.run(sqlUpdate, [midiFileUrl, JSON.stringify(notes), oldFile.id], function (err2) {
+                    db.run(sqlUpdate, [midiFileUrl, JSON.stringify(notes), oldFile.id], function (err2) {    // if file name exists in database, update record in database
                         if (err2) {
                             console.error(err2.message)
                             return res.json({ success: false, message: err2.message })
@@ -95,13 +95,13 @@ app.post('/api/notes', authenticate, (req, res) => {    // generate and create m
                         res.json({ success: true, message: 'updated record', midiFile: midiFileUrl, fileID: this.lastID })
                     })
                 } else {
-                    const sql = 'INSERT INTO files (userID, file_path, melody_notes) VALUES (?, ?, ?)'
+                    const sql = 'INSERT INTO files (userID, file_path, melody_notes) VALUES (?, ?, ?)'    // if file name doesn't exist in database, add file name to database
                     db.run(sql, [req.user.userID, midiFileUrl, JSON.stringify(notes)], function (err) {
                         if (err) {
                             console.error(err.message)
                         }
 
-                        res.json({ success: true, midiFile: midiFileUrl})
+                        res.json({ success: true, midiFile: midiFileUrl})    // return midi file url
                     })
                 }
             })
@@ -115,7 +115,7 @@ app.post('/api/notes', authenticate, (req, res) => {    // generate and create m
 app.get('/api/files', authenticate, (req, res) => { // get users files
     const sql = 'SELECT id, file_path, melody_notes FROM files WHERE userID = ?'
     console.log('Getting files for user:', req.user.userID)
-    db.all(sql, [req.user.userID], (err, rows) => {
+    db.all(sql, [req.user.userID], (err, rows) => {    // get all records where ID matches the ID of the current user
         if (err) {
             console.error(err.message)
             return res.json({ success: false, message: 'Error'})
@@ -136,7 +136,7 @@ app.put('/api/files/:id', authenticate, (req, res) => { // rename midi file
     const { newName } = req.body
     const sql = 'SELECT file_path FROM files WHERE id = ?'
 
-    db.get(sql, [id], (err, row) => {
+    db.get(sql, [id], (err, row) => {    // get file by ID
         
         console.log('ID = ' + id)
         
@@ -158,7 +158,7 @@ app.put('/api/files/:id', authenticate, (req, res) => { // rename midi file
         const fileUser = fileNameNoExt.split('_').pop()
         const userId = String(req.user.userID).trim()
 
-        if (fileUser !== userId)
+        if (fileUser !== userId)                                        // if file name doesn't contain the user ID at the end, add it
             if (midIndex !== -1) {
                 newFileName = newName.substring(0, midIndex) + '_' + req.user.userID + newName.substring(midIndex)
             } else {
@@ -170,7 +170,7 @@ app.put('/api/files/:id', authenticate, (req, res) => { // rename midi file
         fs.rename(oldFilePath, newFilePath, (err2) => {
             if (err2) {
                 console.error(err2.message)
-                return res.json({ error: err2.message})
+                return res.json({ success: false, error: err2.message })
             }
 
             const sqlUpdate = 'UPDATE files SET file_path = ? WHERE id = ?'
@@ -178,7 +178,7 @@ app.put('/api/files/:id', authenticate, (req, res) => { // rename midi file
             db.run(sqlUpdate, [newFileUrl, id], (err3) => {
                 if (err3) {
                     console.error(err3.message)
-                    res.json({ success: false, error: err3.message })
+                    return res.json({ success: false, error: err3.message })
                 }
                 
                 res.json({ success: true, message: 'File renamed'})
@@ -229,13 +229,13 @@ app.delete('/api/files/:id', authenticate, (req, res) => {  // delete midi file
 app.post('/register', (req, res) => {  // register
     const { username, password } = req.body
 
-    bcrypt.hash(password, saltRounds, (err, hashedPass) => {
+    bcrypt.hash(password, saltRounds, (err, hashedPass) => {    // hash password
         if(err) {
             console.error(err.message)
         }
 
         const sql = 'INSERT INTO users (username, password) VALUES (?, ?)'
-        db.run(sql,[username, hashedPass], function (err) {
+        db.run(sql,[username, hashedPass], function (err) {     // add username and hashed password to database
             if (err) {
                 console.error(err.message)
             } else {
@@ -258,7 +258,7 @@ app.post('/login', (req, res) => {  // login
             return res.json({error: 'user not found'})
         }
         
-        bcrypt.compare(password, user.password, (err, isMatch) => {
+        bcrypt.compare(password, user.password, (err, isMatch) => {    // compare password with hash
             if (err) {
                 console.error(err.message)
             }
@@ -267,13 +267,13 @@ app.post('/login', (req, res) => {  // login
                 return res.json({error: 'incorrect password'})
             }
             
-            const token = jwt.sign({userID: user.id}, jwtSecretKey, {expiresIn: 43200})
+            const token = jwt.sign({userID: user.id}, jwtSecretKey, {expiresIn: 43200})    // generate new token that expires in 12 hours
             res.json({message: 'login successful', token, userID: user.id})
         })
     })
 })
 
-app.get('/users', (req, res) => {
+app.get('/users', (req, res) => {    // get all users in database
     const sql = 'SELECT * FROM users'
     db.all(sql, [], (err, rows) => {
         if (err) {
@@ -284,7 +284,7 @@ app.get('/users', (req, res) => {
     })
 })
 
-app.put('/users/:id', (req, res) => {
+app.put('/users/:id', (req, res) => {    // change username
     const username = req.body
     const id = req.params.id
     const sql = 'UPDATE users SET username = ? WHERE id = ?'
@@ -298,7 +298,7 @@ app.put('/users/:id', (req, res) => {
     })
 })
 
-app.delete('/users/:id', (req, res) => {
+app.delete('/users/:id', (req, res) => {    // delete user
     const id = req.params.id
     const sql = 'DELETE FROM users WHERE id = ?'
     db.run(sql, id, function (err) {
