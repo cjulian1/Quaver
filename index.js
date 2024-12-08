@@ -218,7 +218,7 @@ app.delete('/api/files/:id', authenticate, (req, res) => {  // delete midi file
                     return res.json({ error: `Couldn't delete from database`})
                 }
 
-                res.json({ success: true})
+                return res.json({ success: true})
             })
         })
     })
