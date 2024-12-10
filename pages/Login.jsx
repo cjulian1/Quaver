@@ -51,6 +51,9 @@ function LoginPage() {
   return (
     
     <div id='main'>
+      <h1 id='logo-header'>Quaver</h1>
+      <h3 id='logo-text'>Chord generation based on melody input</h3>
+      
       <div className='containerContainer'>
       
         <div className='container'>
