@@ -11,6 +11,17 @@ body {
     background-size: cover;
 }
 
+#logo-header {
+    margin-top: 150px;
+    font-size: 400%;
+    color: white;
+}
+
+#logo-text {
+    color: white;
+    margin-bottom: 50px;
+}
+
 #loginText {
     text-align: 'center';
     color: white;
